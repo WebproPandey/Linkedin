@@ -9,7 +9,8 @@ import loginimage from "../assets/images/login-hero.svg";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);  // ✅ Get user state from Redux
+  const user = useSelector((state) => state.user); 
+  
 
 
 

@@ -1,7 +1,20 @@
-import React from "react";
-import profileimage from '../assets/images/profileimage.jpg'
+import React, { useState } from "react";
+import userimg from '../assets/images/user.svg';
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const user = useSelector((state) => state.user);
+  const [profilePic, setProfilePic] = useState(user.photo );
+
+  // Handle image selection
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfilePic(imageUrl);
+    }
+  };
+
   return (
     <>
       {/* Header */}
@@ -18,7 +31,7 @@ const Header = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="md:flex flex-grow mx-4 ">
+          <div className="md:flex flex-grow mx-4">
             <input
               type="text"
               placeholder="Search"
@@ -26,7 +39,6 @@ const Header = () => {
             />
           </div>
 
-          {/* Navigation Icons - Hidden on Small Screens */}
           <nav className="md:flex space-x-8 hidden text-gray-600">
             <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
               <i className="ri-home-5-fill  text-[1.5rem]"></i>
@@ -50,13 +62,22 @@ const Header = () => {
             </div>
           </nav>
 
-          {/* User Profile */}
-          <div className="ml-4 leading-4 flex flex-col items-center cursor-pointer">
-            <img
-              src={profileimage}
-              alt="Profile"
-              className="w-8 h-8 rounded-full border-2"
+          {/* Profile Picture with Upload Feature */}
+          <div className="relative ml-4 leading-4 flex flex-col items-center cursor-pointer">
+            <input
+              type="file"
+              id="profile-upload"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
             />
+            <label htmlFor="profile-upload" className="cursor-pointer">
+              <img
+                src={profilePic || userimg}
+                alt="Profile"
+                className="w-8 h-8 rounded-full border-2"
+              />
+            </label>
             <span className="text-[.8rem] text-[#888]">Me</span>
           </div>
         </div>
