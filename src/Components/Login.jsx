@@ -1,8 +1,11 @@
 import React from 'react'
 import Linkedin  from '../assets/images/linkedin.png'
 import loginimage  from '../assets/images/login-hero.svg'
+import { signIn } from '../action'
 
 const Login = () => {
+
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
     <div className="w-[80%] flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
@@ -17,7 +20,7 @@ const Login = () => {
         </h2>
 
         <button className="w-full flex items-center justify-center space-x-2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
-          <div className='flex items-center justify-center bg-white rounded-full w-8 h-8 '>
+          <div onClick={() => props.signIn()} className='flex items-center justify-center bg-white rounded-full w-8 h-8 '>
           <img
             src="https://imgs.search.brave.com/lQT2owEfy2yxCwUUF4C1iQwnxUJrHenpx89hdzB1k-Y/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9yZWdp/c3RyeS5ucG1taXJy/b3IuY29tL0Bsb2Jl/aHViL2ljb25zLXN0/YXRpYy1wbmcvbGF0/ZXN0L2ZpbGVzL2Rh/cmsvZ29vZ2xlLWNv/bG9yLnBuZw"
             alt="Google"
