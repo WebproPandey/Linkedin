@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import userimg from '../assets/images/user.svg';
-import { useSelector } from "react-redux";
+// Header.jsx
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserPhoto } from "../Store/reducers/UserSlice"; // Adjust the path as needed
+import userimg from "../assets/images/user.svg";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const [profilePic, setProfilePic] = useState(user.photo );
 
-  // Handle image selection
+  // When a new image is selected, dispatch the update action
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
-      setProfilePic(imageUrl);
+      dispatch(setUserPhoto(imageUrl));
     }
   };
 
@@ -20,7 +22,6 @@ const Header = () => {
       {/* Header */}
       <header className="bg-white shadow-md p-3 fixed w-full top-0 z-[999]">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          
           {/* Logo */}
           <div className="flex items-center">
             <img
@@ -40,30 +41,31 @@ const Header = () => {
           </div>
 
           <nav className="md:flex space-x-8 hidden text-gray-600">
-            <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
-              <i className="ri-home-5-fill  text-[1.5rem]"></i>
+            {/* Navigation items */}
+            <div className="flex flex-col items-center cursor-pointer text-[#888] hover:text-[#191919]">
+              <i className="ri-home-5-fill text-[1.5rem]"></i>
               <span className="text-[.8rem]">Home</span>
             </div>
-            <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
+            <div className="flex flex-col items-center cursor-pointer text-[#888] hover:text-[#191919]">
               <i className="ri-group-fill text-[1.5rem]"></i>
               <span className="text-[.8rem]">My Network</span>
             </div>
-            <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
+            <div className="flex flex-col items-center cursor-pointer text-[#888] hover:text-[#191919]">
               <i className="ri-briefcase-fill text-[1.5rem]"></i>
               <span className="text-[.8rem]">Jobs</span>
             </div>
-            <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
+            <div className="flex flex-col items-center cursor-pointer text-[#888] hover:text-[#191919]">
               <i className="ri-message-2-fill text-[1.5rem]"></i>
               <span className="text-[.8rem]">Messaging</span>
             </div>
-            <div className="flex flex-col leading-7 items-center cursor-pointer text-[#888] hover:text-[#191919]">
+            <div className="flex flex-col items-center cursor-pointer text-[#888] hover:text-[#191919]">
               <i className="ri-notification-2-fill text-[1.5rem]"></i>
               <span className="text-[.8rem]">Notifications</span>
             </div>
           </nav>
 
           {/* Profile Picture with Upload Feature */}
-          <div className="relative ml-4 leading-4 flex flex-col items-center cursor-pointer">
+          <div className="relative ml-4 flex flex-col items-center cursor-pointer">
             <input
               type="file"
               id="profile-upload"
@@ -73,7 +75,7 @@ const Header = () => {
             />
             <label htmlFor="profile-upload" className="cursor-pointer">
               <img
-                src={profilePic || userimg}
+                src={user.photo || userimg}
                 alt="Profile"
                 className="w-8 h-8 rounded-full border-2"
               />
@@ -84,7 +86,7 @@ const Header = () => {
       </header>
 
       {/* Mobile Bottom Navbar */}
-      <nav className="fixed bottom-0 w-full bg-white shadow-md md:hidden flex justify-around py-2 border-t">
+      <nav className="fixed bottom-0 w-full bg-white shadow-md md:hidden flex justify-around py-2 border-t z-[999]">
         <div className="flex flex-col items-center text-gray-600 hover:text-black cursor-pointer">
           <i className="ri-home-5-fill text-2xl"></i>
           <span className="text-xs">Home</span>

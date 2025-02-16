@@ -37,7 +37,6 @@ const PostModal = ({ onClose, onAddPost }) => {
     }
   };
 
-  // Handle video selection
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -46,23 +45,18 @@ const PostModal = ({ onClose, onAddPost }) => {
     }
   };
 
-  // Optional: remove image preview
   const removeImage = () => setImageURL(null);
-  // Optional: remove video preview
   const removeVideo = () => setVideoURL(null);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      {/* Modal Container */}
       <div className="bg-white rounded-lg w-full max-w-xl mx-4 sm:mx-auto">
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold">Create a post</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 focus:outline-none"
           >
-            {/* X Icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
@@ -78,7 +72,6 @@ const PostModal = ({ onClose, onAddPost }) => {
 
         {/* Body */}
         <div className="p-4">
-          {/* User Info */}
           <div className="flex items-center mb-4">
             <img
               src={user.photo}
