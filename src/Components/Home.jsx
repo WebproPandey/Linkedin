@@ -5,40 +5,33 @@ import userimg from "../assets/images/user.svg";
 import cardbg from "../assets/images/card-bg.svg";
 import item from "../assets/images/item-icon.svg";
 import PostModal from "../Components/PostModel";
+import { setUserLoginDetails, setUserPhoto, setSignOutState } from "../Store/reducers/UserSlice";
+
 import { 
   addPost, 
   editPost, 
   deletePost, 
   updateReaction, 
   addComment 
-} from "../Store/reducers/PostSlice"; // adjust path as needed
+} from "../Store/reducers/PostSlice"; 
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  // Get user info from Redux (UserSlice)
   const user = useSelector((state) => state.user);
-  // Get posts from Redux (PostSlice)
   const posts = useSelector((state) => state.post.posts);
   const dispatch = useDispatch();
-
-  // Local state for profile info, modal visibility, and editing UI
+  const navigate = useNavigate();
   const [profileInfo, setProfileInfo] = useState("Add Info");
   const [editing, setEditing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [optionsPostIndex, setOptionsPostIndex] = useState(null);
   const [editingPostIndex, setEditingPostIndex] = useState(null);
   const [editedText, setEditedText] = useState("");
-  
-  // New state for controlling which post’s reaction popup is open
-  const [reactionPopupIndex, setReactionPopupIndex] = useState(null);
-  // New state for comment inputs per post (using an object keyed by post index)
+    const [reactionPopupIndex, setReactionPopupIndex] = useState(null);
   const [commentInputs, setCommentInputs] = useState({});
-
-  // When a post is added via the modal, dispatch addPost.
   const handleAddPost = (newPost) => {
     dispatch(addPost(newPost));
   };
-
-  // Edit and Delete Handlers
   const handleEditClick = (index, currentText) => {
     setEditingPostIndex(index);
     setEditedText(currentText);
@@ -55,22 +48,18 @@ const Home = () => {
     setEditingPostIndex(null);
   };
 
-  // Reaction Handler: update the reaction for a post.
   const handleReaction = (index, reaction) => {
     dispatch(updateReaction({ index, reaction }));
     setReactionPopupIndex(null);
   };
 
-  // Comment Handler: update comment input for a given post.
   const handleCommentInputChange = (index, text) => {
     setCommentInputs({ ...commentInputs, [index]: text });
   };
 
-  // Comment Submit Handler: dispatch addComment.
   const handleCommentSubmit = (index) => {
     if (commentInputs[index] && commentInputs[index].trim() !== "") {
       dispatch(addComment({ index, comment: commentInputs[index].trim() }));
-      // Clear the comment input for that post.
       setCommentInputs({ ...commentInputs, [index]: "" });
     }
   };
@@ -79,15 +68,12 @@ const Home = () => {
     <>
       <div className="bg-[#F4F2EE] min-h-screen flex justify-center pt-[5rem]">
         <div className="max-w-6xl w-full flex md:flex-row flex-col gap-6 p-4">
-          {/* Left Sidebar (Profile Info) */}
           <div className="w-full md:w-1/4 bg-white p-4 rounded-lg shadow-md relative overflow-hidden">
-            {/* Background Card */}
             <div className="w-full h-[10vh] absolute top-0 left-0 z-10">
               <img src={cardbg} className="h-full w-full object-cover" alt="Card Background" />
             </div>
-            {/* Profile Picture */}
             <div className="w-20 h-20 rounded-full border-4 z-[99] relative mx-auto overflow-hidden">
-              <img src={user.photo || userimg} alt="Profile" className="h-full w-full object-cover" />
+              <img src={ user.photo || userimg} alt="Profile" className="h-full w-full object-cover" />
             </div>
             <h2 className="text-center text-lg font-semibold mt-2 z-20">{user.name}</h2>
             {/* Editable Profile Info */}
@@ -129,6 +115,17 @@ const Home = () => {
               <div className="flex">
                 <img src={item} alt="Saved items" />
                 <span className="ml-2">Saved items</span>
+              </div>
+            </div>
+            <div  
+             onClick={() => {
+              dispatch(setSignOutState());
+              navigate("/"); 
+            }}
+            
+            className="text-sm mt-4 border-t py-4 px-2 group hover:bg-[#F4F2EE]  cursor-pointer ">
+              <div className="flex">
+                <span className="ml-2 group-hover:underline">Sign Out</span>
               </div>
             </div>
           </div>
@@ -243,7 +240,7 @@ const Home = () => {
                     {post.reactions.ok > 0 && <span>👌 {post.reactions.ok}</span>}
                   </div>
                 )}</div>
-                  <p>5 comments</p>
+                  <p></p>
                 </div>
                 <div className="relative flex justify-between mt-2 text-gray-500">
                   <button

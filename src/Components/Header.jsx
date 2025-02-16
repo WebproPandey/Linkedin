@@ -75,7 +75,7 @@ const Header = () => {
             />
             <label htmlFor="profile-upload" className="cursor-pointer">
               <img
-                src={user.photo || userimg}
+                src={ user.photo || userimg   }
                 alt="Profile"
                 className="w-8 h-8 rounded-full border-2"
               />
